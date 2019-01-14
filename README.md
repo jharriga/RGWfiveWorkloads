@@ -14,9 +14,12 @@ All scripts create timestamped logfiles in RESULTS directory. Logfiles contain:
 - fillCluster.sh    invokes fillWorkload.xml (fills the cluster with numOBJ and OBJsizes as spec'd in vars.shinc)
 - runIOworkload.sh  invokes ioWorkload.xml (main test script. Executes IOworkload and logs results in RESULTS dir)
 - copyPasswd.sh     inserts the RGW password into the COSbench XML workload files
-- Utils/poll.sh     called by runIOworkload.sh to periodically log statistics (garbage collection, loadAvg, ps)
+- Utils/poll.sh     called by runIOworkload.sh to periodically log statistics in RESULTS/<logfile>
 
-NOTE: host IPaddresses and ceph login credentials in vars.shinc will need to be replaced for your cluster
+NOTE: These values in 'vars.shinc' will need to be replaced for your cluster:
+- host IPaddresses
+- ceph login credentials
+- number of objects
 
 # RUN PROCEDURE:
   - edit vars.shinc
