@@ -1,35 +1,13 @@
 # RGWfiveWorkloads
-automation for extended RGW test sequence (fill, age, deleteWrite)
-Based on RGWtest automation software (https://github.com/jharriga/RGWtest)
+Sample workloads for extended RGW test sequence (fill, age, deleteWrite)
+Use with RGWtest automation software (https://github.com/jharriga/RGWtest)
 
-Uses COSbench to issue RGW operations.
-All scripts create timestamped logfiles in RESULTS directory. Logfiles contain:
-- OSD system resource usage statistics (eg. load average, ceph-osd process cpu and memory)
-- Garbage collection statistics
-- COSbench start and stop timestamps
 
-# Inventory of scripts:
-- writeXML.sh       writes the COSbench XML workload files from the Templates (found in 'XMLtemplates' dir)
-- resetRGW.sh       resets the RGW env. Deletes pools and creates new user. Inserts passwd into XML files
-- fillCluster.sh    invokes fillWorkload.xml (fills the cluster with numOBJ and OBJsizes as spec'd in vars.shinc)
-- runIOworkload.sh  invokes ioWorkload.xml (main test script. Executes IOworkload and logs results in RESULTS dir)
-- copyPasswd.sh     inserts the RGW password into the COSbench XML workload files
-- Utils/poll.sh     called by runIOworkload.sh to periodically log statistics in RESULTS/<logfile>
-
-NOTE: These values in 'vars.shinc' will need to be replaced for your cluster:
-- host IPaddresses
-- ceph login credentials
-- number of objects
-
-# RUN PROCEDURE:
-  - edit vars.shinc
-  - writeXML.sh        <-- afterwards you must run either 'resetRGW.sh' or 'copyPasswd.sh'
-  - resetRGW.sh        <-- creates pools
-  - fillCluster.sh     <-- fills cluster (Workload #1)
-  - hybridSS initial   <-- initial measurement run (Workload #2)
-  - 48hr hybrid age    <-- cluster aging run (Workload #3)
-  - hybridSS aged      <-- aged measurement run (Workload #4)
-  - 6hr delete-write   <-- delete-write (Workload #5)
+# Inventory of workloads:
+- fillWorkload.xml   fills cluster to prepare for other workload testing
+- hybridSS.xml       1 hour runtime combination of operations: reads, lists, writes, deletes (no cluster growth)
+- hybrid2x.xml       12 hour runtime " " " (2x numobjects to simulate aging)
+- deleteWrite.xml    2 hour runtime
 
 # Calculating the number of objects to use
 Based on a cluster with these parameters:
